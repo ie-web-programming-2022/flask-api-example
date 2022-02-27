@@ -1,33 +1,27 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify
 import service
 
-router = Flask(__name__)
+app = Flask(__name__)
 
-@router.route("/users")
-def users():
-    return jsonify(service.get_users())
+@app.route('/data/bar-chart')
+def bar():
+    return jsonify(service.get_bar_chart_data())
 
+@app.route('/data/calendar-chart')
+def calendar():
+    return jsonify(service.get_calendar_chart_data())
 
-@router.route("/users/<user_id>")
-def user(user_id):
-    user = service.get_user(user_id);
-    if not user:
-        return jsonify({ "errorMessage": 'User Not Found' }), 404
-    else:
-        return jsonify(user)
-    
-@router.route("/users", methods=["POST"])
-def create_user():
-    try:
-        user = service.create_user(request.json());
-        return jsonify(user)
-    except:
-        return jsonify({ "errorMessage": 'User Already Exists' }), 404
+@app.route('/data/pie-chart')
+def pie():
+    return jsonify(service.get_pie_chart_data())
 
-@router.route("/users/clear", methods=["POST"])
-def clear_users():
-    return jsonify(service.clear_users())
+@app.route('/data/radar-chart')
+def radar():
+    return jsonify(service.get_radar_chart_data())
 
+@app.route('/data/radial-bar-chart')
+def radial():
+    return jsonify(service.get_radial_bar_chart_data())
 
 if __name__ == "__main__":
-    router.run()
+    app.run()
