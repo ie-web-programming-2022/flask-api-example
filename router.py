@@ -28,4 +28,6 @@ def create_user():
 def clear_users():
     return jsonify(service.clear_users())
 
-router.run()
+
+if __name__ == "__main__":
+    router.run()
